@@ -309,9 +309,9 @@ namespace ThanksGoogle
             bool Ret = false;
 
             string s = "";
-            if (imagetype == 0) s = string.Format("http://mt{0}.google.com/vt/lyrs=s&hl=zh-TW&x={1}&y={2}&z={3}", m_Rnd.Next(6), x, y, z);
-            else if (imagetype == 1) s = string.Format("http://mt{0}.google.com/vt/lyrs=m&hl=zh-TW&x={1}&y={2}&z={3}", m_Rnd.Next(6), x, y, z);
-            else if (imagetype == 2) s = string.Format("http://mt{0}.google.com/vt/lyrs=y&hl=zh-TW&x={1}&y={2}&z={3}", m_Rnd.Next(6), x, y, z);
+            if (imagetype == 0) s = string.Format("http://mt{0}.google.com/vt/lyrs=s&hl=zh-TW&x={1}&y={2}&z={3}", m_Rnd.Next(3), x, y, z);
+            else if (imagetype == 1) s = string.Format("http://mt{0}.google.com/vt/lyrs=m&hl=zh-TW&x={1}&y={2}&z={3}", m_Rnd.Next(3), x, y, z);
+            else if (imagetype == 2) s = string.Format("http://mt{0}.google.com/vt/lyrs=y&hl=zh-TW&x={1}&y={2}&z={3}", m_Rnd.Next(3), x, y, z);
 
             try
             {
