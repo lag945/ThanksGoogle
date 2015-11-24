@@ -47,8 +47,6 @@
             this.BTN_ExportPath = new System.Windows.Forms.Button();
             this.BTN_Start = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
-            this.TBX_ServerUrl = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -231,30 +229,11 @@
             this.label9.TabIndex = 14;
             this.label9.Text = "輸出目錄:";
             // 
-            // TBX_ServerUrl
-            // 
-            this.TBX_ServerUrl.Location = new System.Drawing.Point(71, 182);
-            this.TBX_ServerUrl.Name = "TBX_ServerUrl";
-            this.TBX_ServerUrl.Size = new System.Drawing.Size(221, 22);
-            this.TBX_ServerUrl.TabIndex = 15;
-            this.TBX_ServerUrl.Text = "http://127.0.0.1:8080";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(26, 185);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(44, 12);
-            this.label10.TabIndex = 16;
-            this.label10.Text = "轉座標:";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(386, 295);
-            this.Controls.Add(this.TBX_ServerUrl);
-            this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.BTN_Start);
             this.Controls.Add(this.BTN_ExportPath);
@@ -298,8 +277,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox TBX_ServerUrl;
-        private System.Windows.Forms.Label label10;
     }
 }
 

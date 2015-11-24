@@ -107,79 +107,37 @@ namespace ThanksGoogle
                 }
             }
 
+            double [] buff = new double[8];
+            buff[0] = west;
+            buff[1] = north;
+            buff[2] = east;
+            buff[3] = north;
+            buff[4] = east;
+            buff[5] = south;
+            buff[6] = west;
+            buff[7] = south;
+
+            for (int i = 0; i < 8; i += 2)
+            {
+                double x = buff[i];
+                double y = buff[i+1];
+                WGS84toWM(ref x, ref y);
+                if (i == 0)
+                {
+                    west = east = x;
+                    south = north = y;
+                }
+                else
+                {
+                    if (x < west) west = x;
+                    else if (x > east) east = x;
+
+                    if (y < south) south = y;
+                    else if (y > north) north = y;
+                }
+            }
+
             ExportPath = TBX_ExportPath.Text;
-
-            try
-            {
-                string url = TBX_ServerUrl.Text + "/docmd?cmd=EPSG_Transfer&FromEPSG=4326&ToEPSG=3857&Points=";
-                url += TBX_West.Text + "," + TBX_North.Text;
-                url += "," + TBX_East.Text + "," + TBX_North.Text;
-                url += "," + TBX_East.Text + "," + TBX_South.Text;
-                url += "," + TBX_West.Text + "," + TBX_North.Text;
-
-                HttpWebRequest req = (HttpWebRequest)(WebRequest.Create(url));
-                req.Method = "GET";
-                req.UserAgent = "MyBrowser";
-                HttpWebResponse res = (HttpWebResponse)req.GetResponse();
-                Stream stream = res.GetResponseStream();
-                MemoryStream ms = new MemoryStream();
-                int len = 1024 * 1024;
-                byte[] bytes = new byte[len];
-                int readlen = 0;
-                do
-                {
-                    readlen = stream.Read(bytes, 0, len);
-                    ms.Write(bytes, 0, readlen);
-                }
-                while (readlen > 0);
-
-                string s = Encoding.UTF8.GetString(ms.ToArray());
-                int startindex = 0;
-                int a = -1, b = -1;
-                List<string> strs = new List<string>();
-                while (true)
-                {
-                    a = s.IndexOf("\"coordinates\": [", startindex);
-                    if (a >= 0) a += 16;
-                    else break;
-
-                    startindex = a;
-                    b = s.IndexOf("]}", startindex);
-                    startindex = b;
-
-                    if (a >= 0 && b >= 0)
-                    {
-                        string _s = s.Substring(a, b - a);
-                        strs.Add(_s);
-                    }
-                    else break;
-                }
-
-                for (int i = 0; i < strs.Count; i++)
-                {
-                    string[] ss = strs[i].Split(',');
-                    double x = Convert.ToDouble(ss[0]);
-                    double y = Convert.ToDouble(ss[1]);
-                    if (i == 0)
-                    {
-                        west = east = x;
-                        south = north = y;
-                    }
-                    else
-                    {
-                        if (x < west) west = x;
-                        else if (x > east) east = x;
-
-                        if (y < south) south = y;
-                        else if (y > north) north = y;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("轉換座標失敗" + ex.Message, "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
 
             //開始打格子
             width = 20037508.34278925 * 2 / Math.Pow(2, z);
@@ -211,7 +169,7 @@ namespace ThanksGoogle
             thd.Start();
         }
 
-        int ThreadSize = 12;
+        int ThreadSize = 8;
         int LiveThread = 0;
 
         double z = 0;
@@ -388,6 +346,20 @@ namespace ThanksGoogle
             {
                 ctl.Enabled = myBool;
             }
+        }
+
+        void WMtoWGS84LL(ref double X,ref double Y)
+        {
+            double r = 6378137.0;
+            X = (X / r) / Math.PI * 180.0;
+            Y = (Math.Atan(Math.Sinh(Y / r))) / Math.PI * 180.0; ;
+        }
+
+        void WGS84toWM(ref double X, ref double Y)
+        {
+            double r = 6378137.0;
+            X = r * X / 180.0 * Math.PI;
+            Y = r * Math.Log(Math.Tan(Math.PI / 4.0 + Y / 180.0 * Math.PI / 2.0));
         }
 
 
